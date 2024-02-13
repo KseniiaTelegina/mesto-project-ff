@@ -27,30 +27,14 @@ const popupCaption = imgPopup.querySelector('.popup__caption');
 
 function showCard(cardElement) {
     const newCard = createCard(cardElement, deleteCard, toggleLike, openPopupWithImage);
-    
-    if (placesList.children.length < initialCards.length) {
-        placesList.append(newCard);
-    } else {
-        placesList.prepend(newCard);
-    }
+    placesList.append(newCard);
 }
 
 initialCards.forEach((cardElement) => {
     showCard(cardElement);
 })
 
-//открытие карточек с изображением
-
-function openPopupWithImage(imageSrc, captionText) {
-    popupImage.src = imageSrc;
-    popupImage.alt = captionText;
-    popupCaption.textContent = captionText;
-  
-    openModal(imgPopup);
-    };
-
 //открытие и закрытие попап
-
 
 editPopupOpenButton.addEventListener('click', () => openModal(editPopup));
 addPopupOpenButton.addEventListener('click', () => openModal(cardPopup));
@@ -77,32 +61,24 @@ formElementEditPopup.addEventListener('submit', handleFormSubmit);
 function handleFormCardSubmit(evt) { 
     evt.preventDefault(); 
     const newCardPopup = {  
-      name: newCardName.value, 
-      link: newCardLink.value, 
-      alt: newCardName.value
+      name: newCardName.value,
+      link: newCardLink.value
     };
-
-    showCard(newCardPopup);
-    formElementCardPopup.reset(); 
-    closeModal(cardPopup); 
+    
+    const CreateNewCard = createCard(newCardPopup, deleteCard, toggleLike, openPopupWithImage);
+    placesList.prepend(CreateNewCard);
+    formElementCardPopup.reset();
+    closeModal(cardPopup);
 }
 
 formElementCardPopup.addEventListener('submit', handleFormCardSubmit);
 
 //открытие карточек с изображением
 
-function handleImageClick(imageSrc, captionText) {
+function openPopupWithImage(imageSrc, captionText) {
     popupImage.src = imageSrc;
     popupImage.alt = captionText;
     popupCaption.textContent = captionText;
   
     openModal(imgPopup);
     };
-
-
-
-
-
-
-
-

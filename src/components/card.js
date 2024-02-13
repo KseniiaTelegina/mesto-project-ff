@@ -34,10 +34,7 @@ function toggleLike(evt) {
   evt.target.classList.toggle('card__like-button_is-active');
   };
 
-// function openPopupWithImage(imageSrc, captionText){};
-// //  {
-// //   openPopupWithImage(imageSrc, captionText);
-// // }
+
 
 
 
