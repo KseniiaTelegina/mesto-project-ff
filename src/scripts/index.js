@@ -40,7 +40,12 @@ initialCards.forEach((cardElement) => {
 
 //открытие и закрытие попап
 
-editPopupOpenButton.addEventListener("click", () => openModal(editPopup));
+editPopupOpenButton.addEventListener("click", () => {
+    openModal(editPopup);
+    nameInput.value = profileName.textContent; 
+    descriptionInput.value = profileDescription.textContent; 
+  }
+);
 addPopupOpenButton.addEventListener("click", () => openModal(cardPopup));
 editPopupCloseButton.addEventListener("click", () => closeModal(editPopup));
 cardPopupCloseButton.addEventListener("click", () => closeModal(cardPopup));
@@ -49,13 +54,12 @@ imagePopupCloseButton.addEventListener("click", () => closeModal(imgPopup));
 //Редактирование имени и информации о себе
 
 nameInput.value = profileName.textContent;
-descriptionInput.value = jobInput.textContent;
+descriptionInput.value = profileDescription.textContent;
 
 function handleProfileEditFormSubmit(evt) {
   evt.preventDefault();
   profileName.textContent = nameInput.value;
   profileDescription.textContent = descriptionInput.value;
-  formElementEditPopup.reset();
   closeModal(editPopup);
 }
 
