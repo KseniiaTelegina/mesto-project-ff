@@ -1,5 +1,5 @@
 export { openModal, closeModal };
-// import { clearValidation } from "../scripts/index";
+
 
 const handleEscClose = (event) => {
   if (event.key === "Escape") {
@@ -24,5 +24,4 @@ function closeModal(popup) {
   popup.classList.remove("popup_is-opened");
   document.removeEventListener("keydown", handleEscClose);
   popup.removeEventListener("click", handleOverlayClick);
-  // clearValidation(form, config);
 }

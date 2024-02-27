@@ -1,62 +1,95 @@
-// export { enableValidation };
+// export { enableValidation, clearValidation };
 
-// function toggleButtonState(inputList, buttonElement) {
-//     if (hasInvalidInput(inputList)) {
-//     // сделай кнопку неактивной
-//         buttonElement.disabled = true;
-//     buttonElement.classList.add('button_inactive');
-//   } else {
-//         // иначе сделай кнопку активной
-//         buttonElement.disabled = false;
-//     buttonElement.classList.remove('button_inactive');
-//   }
-// }
+// const validationConfig = {
+//     formSelector: '.popup__form',
+//     inputSelector: '.popup__input',
+//     submitButtonSelector: '.popup__button',
+//     inactiveButtonClass: 'popup__button_disabled',
+//     inputErrorClass: 'popup__input_type_error',
+//     errorClass: 'popup__error_visible'
+//   };
+// // Функция отображения ошибки
+// const showInputError = (formElement, inputElement, errorMessage) => {
+//     const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+//     inputElement.classList.add(validationConfig.inputErrorClass);
+//     errorElement.textContent = errorMessage;
+//     errorElement.classList.add(validationConfig.errorClass);
+//   };
+  
+//   // Функция скрытия ошибки
+//   const hideInputError = (formElement, inputElement) => {
+//     const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+//     inputElement.classList.remove(validationConfig.inputErrorClass);
+//     errorElement.classList.remove(validationConfig.errorClass);
+//     errorElement.textContent = '';
+//   };
+  
+//   // Функция проверки валидности ввода
+  
+//   const checkInputValidity = (formElement, inputElement) => {
+//     if (inputElement.validity.patternMismatch) {
+//       inputElement.setCustomValidity(inputElement.dataset.errorMessage);
+//       } else {
+//       inputElement.setCustomValidity("");
+//       }
+//       if (!inputElement.validity.valid) {
+//         showInputError(formElement, inputElement, inputElement.validationMessage);
+//       } else {
+//         hideInputError(formElement, inputElement);
+//       }
+//   };
+  
+  
+//   const setEventListeners = (formElement, validationConfig) => {
+//     const inputList = Array.from(formElement.querySelectorAll(validationConfig.inputSelector));
+//     const buttonElement = formElement.querySelector(validationConfig.submitButtonSelector);
+//     toggleButtonState(inputList, buttonElement);
+//     inputList.forEach((inputElement) => {
+//       inputElement.addEventListener('input', function () {
+//         checkInputValidity(formElement, inputElement, validationConfig);
+//         toggleButtonState(inputList, buttonElement);
+//       });
+//     });
+//   };
+  
+//   const enableValidation = (validationConfig) => {
+//     const formList = document.querySelectorAll(validationConfig.formSelector);
+  
+//     formList.forEach((formElement) => {
+//       formElement.addEventListener('submit', function (evt) {
+//         evt.preventDefault();
+//       });
+  
+//       setEventListeners(formElement, validationConfig);
+//     });
+//   };
 
-// function toggleButtonState() {
-//     const isValid = form.checkValidity();
-//     submitButton.disabled = !isValid;
-//     submitButton.classList.toggle(inactiveButtonClass, !isValid);
-// }
 
-// function enableValidation({formSelector, inputSelector, submitButtonSelector, inactiveButtonClass, inputErrorClass, errorClass, ...otherInputSettings}) {
-//     const form = document.querySelector(formSelector);
-//     const inputList = form.querySelectorAll(inputSelector);
-//     const submitButton = form.querySelector(submitButtonSelector);
-    
-//     function toggleButtonState() {
-//         const isValid = form.checkValidity();
-//         submitButton.disabled = !isValid;
-//         submitButton.classList.toggle(inactiveButtonClass, !isValid);
+//   function hasInvalidInput(inputList) {
+//     return inputList.some((inputElement) => {
+//       return !inputElement.validity.valid;
+//     });
 //     }
     
-//     function checkInputValidity(inputElement, errorElement) {
-//         if (!inputElement.validity.valid) {
-//             errorElement.textContent = inputElement.validationMessage || "Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы";
-//             errorElement.classList.add(errorClass);
-//             inputElement.classList.add(inputErrorClass);
-//         } else {
-//             errorElement.textContent = "";
-//             errorElement.classList.remove(errorClass);
-//             inputElement.classList.remove(inputErrorClass);
-//         }
+//     function toggleButtonState(inputList, buttonElement) {
+//         if (hasInvalidInput(inputList)) {
+//             buttonElement.disabled = true;
+//         buttonElement.classList.add(validationConfig.inactiveButtonClass);
+//       } else {
+//             buttonElement.disabled = false;
+//         buttonElement.classList.remove(validationConfig.inactiveButtonClass);
+//       }
 //     }
-    
-//     function setEventListeners() {
-//         inputList.forEach((inputElement) => {
-//             const errorElement = inputElement.nextElementSibling;
-            
-//             inputElement.addEventListener('input', function () {
-//                 checkInputValidity(inputElement, errorElement);
-//                 toggleButtonState();
-//             });
-//         });
-        
-//         form.addEventListener('submit', function (evt) {
-//             evt.preventDefault();
-//         });
-        
-//         toggleButtonState();
-//     }
-    
-//     setEventListeners();
-// }
+  
+//   // Функция очистки ошибок валидации и сделать кнопку неактивной
+  
+//   const clearValidation = (formElement, validationConfig) => { 
+//     const inputList = Array.from(formElement.querySelectorAll(validationConfig.inputSelector)); 
+//     const submitButton = formElement.querySelector(validationConfig.submitButtonSelector); 
+   
+//     inputList.forEach((inputElement) => {
+//       inputElement.value = '';
+//       hideInputError(formElement, inputElement); 
+//     }); 
+//     submitButton.classList.add(validationConfig.inactiveButtonClass); 
+//   };
