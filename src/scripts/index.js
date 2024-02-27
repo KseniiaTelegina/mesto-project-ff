@@ -2,8 +2,8 @@ import "../pages/index.css";
 import { initialCards } from "./cards";
 import { createCard, deleteCard, toggleLike } from "../components/card.js";
 import { openModal, closeModal } from "../components/modal.js";
-import { getProfile } from "../components/api.js";
-import { getCard, getData } from "../components/api.js";
+import { getProfile, updateProfile } from "../components/api.js";
+import { getCard, getData, updateCard } from "../components/api.js";
 import { data } from "autoprefixer";
 
 const cardsContainer = document.querySelector(".places__list");
@@ -27,22 +27,6 @@ const popupImage = imgPopup.querySelector(".popup__image");
 const popupCaption = imgPopup.querySelector(".popup__caption");
 
 getProfile();
-// getCard();
-
-// function addCard(cardElement) {
-//   const newCard = createCard(
-//     cardElement,
-//     deleteCard,
-//     toggleLike,
-//     openPopupWithImage,
-//   );
-//   cardsContainer.append(newCard);
-// }
-
-// initialCards.forEach((cardElement) => {
-//   addCard(cardElement);
-// });
-
 
 getData().then(res => {
   const [userData, cardsData] = res;
@@ -51,19 +35,10 @@ getData().then(res => {
       openPopupWithImage,);
       cardsContainer.append(cardElement);
   })
-  // .catch(err => {
-  //   console.error(err);
-  // })
 })
 .catch(err => {
   console.error(err);
 })
-
-// initialCards.forEach((cardElement) => {
-//   addCard(cardElement);
-// });
-
-
 
 
 //открытие и закрытие попап
@@ -91,23 +66,63 @@ imagePopupCloseButton.addEventListener("click", () => closeModal(imgPopup));
 nameInput.value = profileName.textContent;
 descriptionInput.value = profileDescription.textContent;
 
-function handleProfileEditFormSubmit(evt) {
-  evt.preventDefault();
+function handleProfileEditFormSubmit() {
+  // evt.preventDefault();
   profileName.textContent = nameInput.value;
   profileDescription.textContent = descriptionInput.value;
   closeModal(editPopup);
 }
 
-formElementEditPopup.addEventListener("submit", handleProfileEditFormSubmit);
+updateProfile( nameInput.value, descriptionInput.value ).then(data => {
+  
+  const userName = data.name;
+  const userAbout = data.about;
+  const userAvatar = data.avatar;
+
+  const profileImage = document.querySelector('.profile__image');
+  profileImage.style.backgroundImage = `url(${userAvatar})`;
+
+  const profileTitle = document.querySelector('.profile__title');
+  profileTitle.textContent = userName;
+
+  const profileDescription = document.querySelector('.profile__description');
+  profileDescription.textContent = userAbout;
+
+
+  })
+  .catch(err => {
+      console.error(err);
+  })
+
+
+formElementEditPopup.addEventListener("submit", () => {
+  updateProfile(nameInput.value, descriptionInput.value);
+  handleProfileEditFormSubmit();
+})
 
 //Добавление карточки
 
-function handleFormCardSubmit(evt) {
-  evt.preventDefault();
+function handleFormCardSubmit() {
+  // evt.preventDefault();
   const newCardPopup = {
     name: newCardName.value,
     link: newCardLink.value,
   };
+
+  updateCard(newCardName.value, newCardLink.value).then(data => {
+    
+    const cardName = data.name;
+    const cardLink = data.link;
+
+    const cardTitle = document.querySelector('.card__title');
+    cardTitle.textContent = cardName;
+
+    const newLink = document.querySelector('.card__image');
+    newLink.src = cardLink;
+  })
+  .catch(err => {
+    console.error(err);
+})
 
   const createNewCard = createCard(
     newCardPopup,
@@ -121,7 +136,10 @@ function handleFormCardSubmit(evt) {
   
 }
 
-formElementCardPopup.addEventListener("submit", handleFormCardSubmit);
+formElementCardPopup.addEventListener("submit", () => {
+  updateCard(newCardName.value, newCardLink.value);
+  handleFormCardSubmit();
+})
 
 //открытие карточек с изображением
 
