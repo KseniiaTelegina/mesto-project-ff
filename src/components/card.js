@@ -18,8 +18,9 @@ function createCard(userId, data, deleteCard, updateLikeCounter, imageClickCallb
     cardImage.alt = data.name;
     cardTitle.textContent = data.name;
     const cardId = data._id;
+    
     const isLiked = data.likes.some(like => like._id === userId);
-  
+    console.log('Ошибка', isLiked)
     if (userId !== data.owner._id) {
       deleteButton.style.visibility = 'hidden';
     }
@@ -46,7 +47,8 @@ function createCard(userId, data, deleteCard, updateLikeCounter, imageClickCallb
 
     if (isLiked) {
         likeButton.classList.add('card__like-button_is-active');
-        likeStates[cardId] = true; }
+        likeStates[cardId] = true; 
+    }
         
         likeCounter.textContent = data.likes.length;
       
@@ -95,3 +97,7 @@ function createCard(userId, data, deleteCard, updateLikeCounter, imageClickCallb
 };
 
 
+// function toggleLike(evt) { 
+//     evt.target.classList.toggle('card__like-button_is-active'); 
+//   }
+// export { createCard, deleteCard, toggleLike, updateLikeCounter, handleLikeClick };
