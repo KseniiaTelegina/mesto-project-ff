@@ -10,4 +10,4 @@
 
 При создании проекта использован язык JavaScript, HTML, CSS.
 
-Сайт всегда доступен по адресу: https://github.com/KseniiaTelegina/mesto-project-ff.git
+Сайт всегда доступен по адресу: https://kseniiatelegina.github.io/mesto-project-ff/
