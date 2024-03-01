@@ -4,7 +4,8 @@ import {deleteCardId, addLike, deleteLike } from "./api";
 
 const cardTemplate = document.querySelector("#card-template").content;
 
-function createCard(userId, data, deleteCard, handleLikeClick, imageClickCallback) {
+// function createCard(userId, data, deleteCard, handleLikeClick, imageClickCallback) 
+function createCard(userId, data, deleteCallback, handleLikeClick, imageClickCallback){
     const cardElement = cardTemplate.querySelector(".card").cloneNode(true);
     const cardImage = cardElement.querySelector(".card__image");
     const cardTitle = cardElement.querySelector(".card__title");
@@ -34,13 +35,7 @@ function createCard(userId, data, deleteCard, handleLikeClick, imageClickCallbac
         likeCounter.textContent = data.likes.length;
   
     deleteButton.addEventListener("click", function () {
-      deleteCardId(cardId).then(() => {
-          deleteCard(cardElement);
-      })
-      .catch((error) => {
-          console.log(error);
-      });
-      
+        deleteCallback(cardId, cardElement)
   });
   
 
@@ -55,8 +50,13 @@ function createCard(userId, data, deleteCard, handleLikeClick, imageClickCallbac
         return cardElement;
   };
   
-  function deleteCard(cardElement) {
-    cardElement.remove();
+  function deleteCard(cardId, cardElement) {
+    deleteCardId(cardId, cardElement).then(() => {
+        cardElement.remove();
+    })
+    .catch((error) => {
+        console.log(error);
+    });
   };
 
   const likeStates = {};
