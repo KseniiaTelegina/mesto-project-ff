@@ -117,7 +117,7 @@ function handleFormCardSubmit() {
     const cardTitle = document.querySelector('.card__title');
     cardTitle.textContent = cardName;
 
-    const newLink = document.querySelector('.card__image');
+    const newLink = document.querySelector('.profile__description');
     newLink.src = cardLink;
   })
   .catch(err => {
@@ -137,7 +137,7 @@ function handleFormCardSubmit() {
 }
 
 formElementCardPopup.addEventListener("submit", () => {
-  updateCard(newCardName.value, newCardLink.value);
+  updateCard(newCardName.value, newCardName.value);
   handleFormCardSubmit();
 })
 
