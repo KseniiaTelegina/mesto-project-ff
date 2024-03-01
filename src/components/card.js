@@ -19,7 +19,6 @@ function createCard(userId, data, deleteCard, handleLikeClick, imageClickCallbac
     cardTitle.textContent = data.name;
     const cardId = data._id;
     
-    // const isLiked = data.likes.some(like => like._id === userId);
     const isLiked = data.likes.some(like => like._id === userId);
     console.log('Ошибка', isLiked)
 
@@ -42,6 +41,7 @@ function createCard(userId, data, deleteCard, handleLikeClick, imageClickCallbac
       .catch((error) => {
           console.log(error);
       });
+      
   });
   
 

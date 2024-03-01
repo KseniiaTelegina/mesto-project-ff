@@ -157,7 +157,6 @@ updateCard(newCardName.value, newCardLink.value)
     const createNewCard = createCard(
       updateCard(newCardName.value, newCardLink.value),
       deleteCard,
-      handleLikeClick,
       openPopupWithImage,
     );
 
