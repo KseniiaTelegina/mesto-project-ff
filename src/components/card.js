@@ -20,7 +20,7 @@ function createCard(userId, data, deleteCard, handleLikeClick, imageClickCallbac
     const cardId = data._id;
     
     const isLiked = data.likes.some(like => like._id === userId);
-    console.log('Ошибка', isLiked)
+
 
     if (userId !== data.owner._id) {
       deleteButton.style.visibility = 'hidden';
@@ -34,8 +34,7 @@ function createCard(userId, data, deleteCard, handleLikeClick, imageClickCallbac
         likeCounter.textContent = data.likes.length;
   
     deleteButton.addEventListener("click", function () {
-      deleteCardId(cardId).then((data) => {
-          console.log("Карточка успешно удалена", data);
+      deleteCardId(cardId).then(() => {
           deleteCard(cardElement);
       })
       .catch((error) => {
