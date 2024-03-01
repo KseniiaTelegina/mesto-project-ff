@@ -1,6 +1,6 @@
 import "../pages/index.css";
 // import { initialCards } from "./cards";
-import { createCard, deleteCard, updateLikeCounter } from "../components/card.js";
+import { createCard, deleteCard, handleLikeClick } from "../components/card.js";
 // import { createCard, deleteCard, toggleLike, updateLikeCounter } from "../components/card.js";
 import { openModal, closeModal } from "../components/modal.js";
 import { enableValidation, clearValidation, validationConfig } from "../components/validation.js";
@@ -61,7 +61,7 @@ getData()
       userId,
       card,
       deleteCard,
-      updateLikeCounter,
+      handleLikeClick,
       openPopupWithImage,
     );
     cardsContainer.append(cardElement);
@@ -157,7 +157,7 @@ updateCard(newCardName.value, newCardLink.value)
     const createNewCard = createCard(
       updateCard(newCardName.value, newCardLink.value),
       deleteCard,
-      updateLikeCounter,
+      handleLikeClick,
       openPopupWithImage,
     );
 

@@ -1,10 +1,10 @@
 
-export { createCard, deleteCard, updateLikeCounter, handleLikeClick };
+export { createCard, deleteCard, handleLikeClick };
 import {deleteCardId, addLike, deleteLike } from "./api";
 
 const cardTemplate = document.querySelector("#card-template").content;
 
-function createCard(userId, data, deleteCard, updateLikeCounter, imageClickCallback) {
+function createCard(userId, data, deleteCard, handleLikeClick, imageClickCallback) {
     const cardElement = cardTemplate.querySelector(".card").cloneNode(true);
     const cardImage = cardElement.querySelector(".card__image");
     const cardTitle = cardElement.querySelector(".card__title");
@@ -19,12 +19,20 @@ function createCard(userId, data, deleteCard, updateLikeCounter, imageClickCallb
     cardTitle.textContent = data.name;
     const cardId = data._id;
     
+    // const isLiked = data.likes.some(like => like._id === userId);
     const isLiked = data.likes.some(like => like._id === userId);
     console.log('Ошибка', isLiked)
+
     if (userId !== data.owner._id) {
       deleteButton.style.visibility = 'hidden';
     }
   
+    if (isLiked) {
+        likeButton.classList.add('card__like-button_is-active');
+        likeStates[cardId] = true; 
+    }
+        
+        likeCounter.textContent = data.likes.length;
   
     deleteButton.addEventListener("click", function () {
       deleteCardId(cardId).then((data) => {
@@ -38,19 +46,12 @@ function createCard(userId, data, deleteCard, updateLikeCounter, imageClickCallb
   
 
     likeButton.addEventListener('click', () => {  
-      handleLikeClick(cardId, likeButton, likeCounter, addLike, deleteLike, updateLikeCounter);  
+      handleLikeClick(cardId, likeButton, likeCounter);  
   });   
   
     cardImage.addEventListener("click", function () {
       imageClickCallback(data.link, data.name);
     });
-
-    if (isLiked) {
-        likeButton.classList.add('card__like-button_is-active');
-        likeStates[cardId] = true; 
-    }
-        
-        likeCounter.textContent = data.likes.length;
       
         return cardElement;
   };
@@ -61,14 +62,13 @@ function createCard(userId, data, deleteCard, updateLikeCounter, imageClickCallb
 
   const likeStates = {};
 
-  function handleLikeClick(cardId, likeButton, likeCounter, updateLikeCounter) {
+  function handleLikeClick(cardId, likeButton, likeCounter) {
       if (likeStates[cardId]) {
           // Убираем лайк
           deleteLike(cardId)
               .then(data => {
                   likeButton.classList.remove('card__like-button_is-active');
                   likeCounter.textContent = data.likes.length;
-                  updateLikeCounter(cardId, data.likes.length);
                   likeStates[cardId] = false;
               })
               .catch(error => {
@@ -80,7 +80,6 @@ function createCard(userId, data, deleteCard, updateLikeCounter, imageClickCallb
               .then(data => {
                   likeButton.classList.add('card__like-button_is-active');
                   likeCounter.textContent = data.likes.length;
-                  updateLikeCounter(cardId, data.likes.length);
                   likeStates[cardId] = true;
               })
               .catch(error => {
@@ -89,12 +88,6 @@ function createCard(userId, data, deleteCard, updateLikeCounter, imageClickCallb
       }
   };
   
-  function updateLikeCounter(cardId, likesCount) {
-    const likeCounter = document.querySelector(`.card[data-id="${cardId}"] .counter__likes`);
-    if (likeCounter) {
-        likeCounter.textContent = likesCount;
-    }
-};
 
 
 // function toggleLike(evt) { 
