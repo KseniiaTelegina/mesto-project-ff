@@ -25,6 +25,10 @@ function createCard(userId, data, deleteCallback, handleLikeClick, imageClickCal
 
     if (userId !== data.owner._id) {
       deleteButton.style.visibility = 'hidden';
+    } else {
+        deleteButton.addEventListener("click", function () {
+            deleteCallback(cardId, cardElement)
+      });
     }
   
     if (isLiked) {
@@ -33,23 +37,17 @@ function createCard(userId, data, deleteCallback, handleLikeClick, imageClickCal
     }
         
         likeCounter.textContent = data.likes.length;
-  
-    deleteButton.addEventListener("click", function () {
-        deleteCallback(cardId, cardElement)
-  });
-  
 
     likeButton.addEventListener('click', () => {  
-      handleLikeClick(cardId, likeButton, likeCounter);  
+      handleLikeClick(cardId, likeButton, likeCounter);
   });   
   
     cardImage.addEventListener("click", function () {
       imageClickCallback(data.link, data.name);
     });
-      
         return cardElement;
   };
-  
+
   function deleteCard(cardId, cardElement) {
     deleteCardId(cardId, cardElement).then(() => {
         cardElement.remove();
@@ -62,31 +60,16 @@ function createCard(userId, data, deleteCallback, handleLikeClick, imageClickCal
   const likeStates = {};
 
   function handleLikeClick(cardId, likeButton, likeCounter) {
-      if (likeStates[cardId]) {
-          // Убираем лайк
-          deleteLike(cardId)
-              .then(data => {
-                  likeButton.classList.remove('card__like-button_is-active');
-                  likeCounter.textContent = data.likes.length;
-                  likeStates[cardId] = false;
-              })
-              .catch(error => {
-                  console.log(error);
-              });
-      } else {
-          // Устанавливаем лайк
-          addLike(cardId)
-              .then(data => {
-                  likeButton.classList.add('card__like-button_is-active');
-                  likeCounter.textContent = data.likes.length;
-                  likeStates[cardId] = true;
-              })
-              .catch(error => {
-                  console.log(error);
-              });
-      }
+    const likeMethod = likeStates[cardId] ? deleteLike: addLike;
+      likeMethod(cardId) 
+              .then(data => { 
+                    likeButton.classList.toggle('card__like-button_is-active'); 
+                    likeCounter.textContent = data.likes.length; 
+                    likeStates[cardId] = !likeStates[cardId]; 
+               })
+      .catch(err => console.log(err));
   };
-  
+
 
 
 // function toggleLike(evt) { 

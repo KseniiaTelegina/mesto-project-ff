@@ -1,10 +1,12 @@
 import "../pages/index.css";
-// import { initialCards } from "./cards";
+// import { initialCards } from "./cards";likeMethod
+// import { createCard, deleteCard, handleLikeClick } from "../components/card.js";
 import { createCard, deleteCard, handleLikeClick } from "../components/card.js";
 // import { createCard, deleteCard, toggleLike, updateLikeCounter } from "../components/card.js";
 import { openModal, closeModal } from "../components/modal.js";
-import { enableValidation, clearValidation, validationConfig } from "../components/validation.js";
+import { enableValidation, clearValidation } from "../components/validation.js";
 import { getData, updateProfile, updateCard, updateAvatar } from "../components/api.js";
+export { validationConfig};
 //import { getProfile, updateProfile } from "../components/api.js";
 //import { getCard, getData, updateCard } from "../components/api.js";
 
@@ -34,7 +36,7 @@ const newCardLink = formElementCardPopup.querySelector(".popup__input_type_url")
 const popupImage = imgPopup.querySelector(".popup__image");
 const popupCaption = imgPopup.querySelector(".popup__caption");
 const saveButton = document.querySelector(".popup__button");
-
+let userId;
 
 // Создание карточки
 
@@ -45,7 +47,7 @@ getData()
   const userName = userData.name;
   const userAbout = userData.about;
   const userAvatar = userData.avatar;
-  const userId = userData._id;
+  userId = userData._id;
 
   const profileImage = document.querySelector(".profile__image");
   profileImage.style.backgroundImage = `url(${userAvatar})`;
@@ -72,6 +74,14 @@ getData()
 });
 
 //открытие и закрытие попап
+const validationConfig = {
+  formSelector: ".popup__form",
+  inputSelector: ".popup__input",
+  submitButtonSelector: ".popup__button",
+  inactiveButtonClass: "popup__button_disabled",
+  inputErrorClass: "popup__input_type_error",
+  errorClass: "popup__error_visible",
+};
 
 enableValidation(validationConfig);
 
@@ -139,38 +149,46 @@ formElementEditPopup.addEventListener("submit", handleProfileEditFormSubmit);
 //Добавление карточки
 
 function handleFormCardSubmit(event) {
-event.preventDefault();
+  event.preventDefault();
 
-saveButton.textContent = "Сохранение...";
+  saveButton.textContent = "Сохранение...";
 
-updateCard(newCardName.value, newCardLink.value)
-  .then((data) => {
-    const cardName = data.name;
-    const cardLink = data.link;
+  updateCard(newCardName.value, newCardLink.value)
+    .then((data) => {
+      const cardName = data.name;
+      const cardLink = data.link;
 
-    const cardTitle = document.querySelector(".card__title");
-    cardTitle.textContent = cardName;
+      const cardTitle = document.querySelector(".card__title");
+      cardTitle.textContent = cardName;
 
-    const newCardImageLink = document.querySelector(".card__image");
-    newCardImageLink.src = cardLink;
+      const newCardImageLink = document.querySelector(".card__image");
+      newCardImageLink.src = cardLink;
 
-    const createNewCard = createCard(
-      updateCard(newCardName.value, newCardLink.value),
-      deleteCard,
-      openPopupWithImage,
-    );
+      const createNewCard = createCard(
+        userId,
+        data,
+        deleteCard,
+        handleLikeClick,
+        openPopupWithImage,
+        console.log('кукусики', data)
+      );
 
-    cardsContainer.prepend(createNewCard);
-  })
-  .catch((err) => {
-    console.error(err);
-  })
-  .finally(() => {
-    saveButton.textContent = "Сохранить";
-  });
+      cardsContainer.prepend(createNewCard);
+      formElementCardPopup.reset();
+      closeModal(cardPopup);
+      // console.log('кукусики');
+    })
+    .catch((err) => {
+      console.error(err);
+    })
+    .finally(() => {
+      saveButton.textContent = "Сохранить";
+    });
 
-formElementCardPopup.reset();
-closeModal(cardPopup);
+
+
+// formElementCardPopup.reset();
+// closeModal(cardPopup);
 }
 
 formElementCardPopup.addEventListener("submit", handleFormCardSubmit);

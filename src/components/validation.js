@@ -1,4 +1,11 @@
-export { enableValidation, clearValidation, validationConfig };
+export { enableValidation, clearValidation };
+import { validationConfig  } from "../scripts/index";
+
+const disableSubmitButton = (button, config) => {
+    button.disabled = true;
+    button.classList.add(config.inactiveButtonClass);
+  };
+  
 // // Функция отображения ошибки
 const showInputError = (formElement, inputElement, errorMessage) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
@@ -37,7 +44,7 @@ const setEventListeners = (formElement, validationConfig) => {
   const buttonElement = formElement.querySelector(
     validationConfig.submitButtonSelector,
   );
-  toggleButtonState(inputList, buttonElement);
+  toggleButtonState(inputList, buttonElement, validationConfig);
   inputList.forEach((inputElement) => {
     inputElement.addEventListener("input", function () {
       checkInputValidity(formElement, inputElement, validationConfig);
@@ -58,14 +65,14 @@ const enableValidation = (validationConfig) => {
   });
 };
 
-const validationConfig = {
-  formSelector: ".popup__form",
-  inputSelector: ".popup__input",
-  submitButtonSelector: ".popup__button",
-  inactiveButtonClass: "popup__button_disabled",
-  inputErrorClass: "popup__input_type_error",
-  errorClass: "popup__error_visible",
-};
+// const validationConfig = {
+//   formSelector: ".popup__form",
+//   inputSelector: ".popup__input",
+//   submitButtonSelector: ".popup__button",
+//   inactiveButtonClass: "popup__button_disabled",
+//   inputErrorClass: "popup__input_type_error",
+//   errorClass: "popup__error_visible",
+// };
 
 function hasInvalidInput(inputList) {
   return inputList.some((inputElement) => {
@@ -75,8 +82,7 @@ function hasInvalidInput(inputList) {
 
 function toggleButtonState(inputList, buttonElement) {
   if (hasInvalidInput(inputList)) {
-    buttonElement.disabled = true;
-    buttonElement.classList.add(validationConfig.inactiveButtonClass);
+    disableSubmitButton(buttonElement, validationConfig);
   } else {
     buttonElement.disabled = false;
     buttonElement.classList.remove(validationConfig.inactiveButtonClass);
@@ -97,5 +103,7 @@ const clearValidation = (formElement, validationConfig) => {
     inputElement.value = "";
     hideInputError(formElement, inputElement);
   });
-  submitButton.classList.add(validationConfig.inactiveButtonClass);
+  disableSubmitButton(submitButton, validationConfig);
 };
+
+
