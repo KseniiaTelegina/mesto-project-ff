@@ -169,8 +169,8 @@ function handleFormCardSubmit(event) {
         data,
         deleteCard,
         handleLikeClick,
-        openPopupWithImage,
-        console.log('кукусики', data)
+        openPopupWithImage
+        // console.log('кукусики', data)
       );
 
       cardsContainer.prepend(createNewCard);
@@ -184,11 +184,6 @@ function handleFormCardSubmit(event) {
     .finally(() => {
       saveButton.textContent = "Сохранить";
     });
-
-
-
-// formElementCardPopup.reset();
-// closeModal(cardPopup);
 }
 
 formElementCardPopup.addEventListener("submit", handleFormCardSubmit);
@@ -196,25 +191,25 @@ formElementCardPopup.addEventListener("submit", handleFormCardSubmit);
 // Обновление аватара
 
 function handleFormAvatarSubmit(event) {
-event.preventDefault();
+  event.preventDefault();
 
-saveButton.textContent = "Сохранение...";
+  saveButton.textContent = "Сохранение...";
 
-updateAvatar(newAvatarLink.value)
-  .then((data) => {
-    const avatarImage = data.avatar;
-    const profileImage = document.querySelector(".profile__image");
-    profileImage.style.backgroundImage = `url(${avatarImage})`;
-    closeModal(avatarPopup);
-  })
-  .catch((err) => {
-    console.error(err);
-  })
-  .finally(() => {
-    saveButton.textContent = "Сохранить";
-  });
+  updateAvatar(newAvatarLink.value)
+    .then((data) => {
+      const avatarImage = data.avatar;
+      const profileImage = document.querySelector(".profile__image");
+      profileImage.style.backgroundImage = `url(${avatarImage})`;
+      closeModal(avatarPopup);
+    })
+    .catch((err) => {
+      console.error(err);
+    })
+    .finally(() => {
+      saveButton.textContent = "Сохранить";
+    });
 
-formElementAvatarPopup.reset();
+  formElementAvatarPopup.reset();
 }
 
 formElementAvatarPopup.addEventListener("submit", handleFormAvatarSubmit);
