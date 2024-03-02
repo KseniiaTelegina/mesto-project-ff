@@ -1,15 +1,9 @@
 import "../pages/index.css";
-// import { initialCards } from "./cards";likeMethod
-// import { createCard, deleteCard, handleLikeClick } from "../components/card.js";
 import { createCard, deleteCard, handleLikeClick } from "../components/card.js";
-// import { createCard, deleteCard, toggleLike, updateLikeCounter } from "../components/card.js";
 import { openModal, closeModal } from "../components/modal.js";
 import { enableValidation, clearValidation } from "../components/validation.js";
 import { getData, updateProfile, updateCard, updateAvatar } from "../components/api.js";
 export { validationConfig};
-//import { getProfile, updateProfile } from "../components/api.js";
-//import { getCard, getData, updateCard } from "../components/api.js";
-
 
 const cardsContainer = document.querySelector(".places__list");
 const editPopupOpenButton = document.querySelector(".profile__edit-button");
