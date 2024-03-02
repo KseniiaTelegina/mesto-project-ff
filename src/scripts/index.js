@@ -155,28 +155,17 @@ function handleFormCardSubmit(event) {
 
   updateCard(newCardName.value, newCardLink.value)
     .then((data) => {
-      const cardName = data.name;
-      const cardLink = data.link;
-
-      const cardTitle = document.querySelector(".card__title");
-      cardTitle.textContent = cardName;
-
-      const newCardImageLink = document.querySelector(".card__image");
-      newCardImageLink.src = cardLink;
-
       const createNewCard = createCard(
         userId,
         data,
         deleteCard,
         handleLikeClick,
         openPopupWithImage
-        // console.log('кукусики', data)
       );
 
       cardsContainer.prepend(createNewCard);
       formElementCardPopup.reset();
       closeModal(cardPopup);
-      // console.log('кукусики');
     })
     .catch((err) => {
       console.error(err);
