@@ -3,7 +3,6 @@ import { createCard, deleteCard, handleLikeClick } from "../components/card.js";
 import { openModal, closeModal } from "../components/modal.js";
 import { enableValidation, clearValidation } from "../components/validation.js";
 import { getData, updateProfile, updateCard, updateAvatar } from "../components/api.js";
-export { validationConfig};
 
 const cardsContainer = document.querySelector(".places__list");
 const editPopupOpenButton = document.querySelector(".profile__edit-button");
@@ -68,6 +67,7 @@ getData()
 });
 
 //открытие и закрытие попап
+
 const validationConfig = {
   formSelector: ".popup__form",
   inputSelector: ".popup__input",
